@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>◐ Day &amp; Night (WebVR)</title>
+		
+		<meta charset="utf-8">
+		<meta name="viewport"             content="width=device-width,initial-scale=1.0">
+		<meta name="description"          content="Explore what makes day and night on Earth using your HTC Vive and a WebVR browser.">
+		<meta name="keywords"             content="vr webvr virtual reality htc vive webgl three.js canvas html5 css3 javascript interactive data visualization 
+		                                           space solar system sun earth moon orbit day night terminator line twilight
+		                                           explore exploration curiosity kids children education learning headstart parents">
+		<meta name="copyright"            content="Stewart Smith 2016, 2017 http://stewartsmith.io">
+		
+		<meta name="twitter:card"         content="summary">
+		<meta name="twitter:site"         content="@stew_rtsmith">
+		<meta name="twitter:creator"      content="@stew_rtsmith">
+		<meta name="twitter:description"  content="Explore what makes day and night on Earth using your HTC Vive and a WebVR browser.">
+		<meta name="twitter:title"        content="Day and Night">
+		<meta name="twitter:image"        content="https://dayandnight.moar.io/media/day-and-night.jpg">
+		<meta name="twitter:url"          content="https://dayandnight.moar.io/">
+		
+		<meta property="og:type"          content="website">
+		<meta property="og:description"   content="Explore what makes day and night on Earth using your HTC Vive and a WebVR browser.">
+		<meta property="og:title"         content="Day and Night">
+		<meta property="og:image"         content="https://dayandnight.moar.io/media/day-and-night.jpg">
+		<meta property="og:url"           content="https://dayandnight.moar.io/">
+
+		<!--  Origin Trial Token, feature = WebVR, origin = https://moar.io, expires = 2017-04-17  -->
+		<meta http-equiv="origin-trial" data-feature="WebVR" data-expires="2017-04-17" content="AmljNlaZjVHVbj98muF4DybcaVjXU2EFURjc6PZc0GF/Oxwlg5K0fe70o+t2+oS+blD6/7BuoZQMSwXLEzThRAgAAABZeyJvcmlnaW4iOiJodHRwczovL21vYXIuaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSIiwiZXhwaXJ5IjoxNDkyNDczNjAwLCJpc1N1YmRvbWFpbiI6dHJ1ZX0=">
+		
+		<link rel="canonical"             href="https://dayandnight.moar.io/">
+		<link rel="icon" type="image/png" href="media/favicon-064.png">
+		<link rel="apple-touch-icon"      href="media/favicon-144.png">
+		<link rel="stylesheet"            href="styles/base.css" type="text/css">
+		
+		<script charset="utf-8" src="scripts/third-party/Detector.js"></script>
+		<script charset="utf-8" src="scripts/third-party/three.min.js"></script>
+		<script charset="utf-8" src="scripts/third-party/VRControls.js"></script>
+		<script charset="utf-8" src="scripts/third-party/VREffect.js"></script>
+		<script charset="utf-8" src="scripts/third-party/VRController.js"></script>
+		<script charset="utf-8" src="scripts/third-party/OBJLoader.js"></script>
+		
+		<script charset="utf-8" src="scripts/tasks.js"></script>
+		<script charset="utf-8" src="scripts/moar.js"></script>
+		<script charset="utf-8" src="scripts/space.js"></script>
+		<script charset="utf-8" src="scripts/dan.js"></script>
+		<script charset="utf-8" src="scripts/controllers.js"></script>
+	</head>
+	<body>
+		<div id="three"></div>
+		<div id="ui">
+			<div id="top-fold">
+
+
+				<h1 id="mark">
+					<svg class="svg-symbol" role="img" title="Day &amp; Night">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#day-and-night"></use>
+					</svg>
+				</h1>
+
+
+				<!-- div id="loading">
+					Loading asset <span id="assets-load-index">1</span> of <span id="assets-total"> several</span>.
+				</div -->
+
+
+				<div id="errors" class="highlight-links">
+					<h2>Apologies</h2>
+					<div id="no-webgl">
+						Day &amp; Night requires <a href="https://en.wikipedia.org/wiki/WebGL" onclick="noteOutboundLink(this)" target="_blank">WebGL</a>
+						to render its graphics but it appears that either your hardware or Web browser
+						do not support it.
+						Try accessing this site from a different machine.
+					</div>
+					<div id="no-webvr">
+						Day &amp; Night requires a <a href="https://en.wikipedia.org/wiki/WebVR" onclick="noteOutboundLink(this)" target="_blank">WebVR</a>-capable Web browser. 
+						Fortunately these browsers are free.
+						See the
+						<a href="https://webvr.info/" onclick="noteOutboundLink(this)" target="_blank">WebVR info</a> website for details and download links.
+					</div>
+					<div id="no-hmd">
+						Day &amp; Night requires a VR head-mounted display (HMD) such as the
+						<a href="https://www.vive.com/" onclick="noteOutboundLink(this)" target="_blank">HTC Vive</a>
+						but there does not appear to be any virtual reality headset attached to your machine.  
+						Check your headset’s connections and try again.
+					</div>
+				</div>
+				
+
+				<div id="vr-toggle-container">
+					<div id="vr-toggle-off">
+						View in VR
+					</div>
+					<div id="vr-toggle-on">
+						<svg class="svg-symbol" role="img">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#vr-goggles"></use>
+						</svg>
+						VR engaged
+					</div>
+				</div>
+
+
+			</div>
+			<div id="about" class="anchor highlight-links" label="About" hash="about">
+				<div id="about-column-1">
+
+
+					<section id="description">
+						<p class="text-hero">
+							Jump into outer-space to witness the sun bathe one hemisphere of Earth in daylight as the sleeping side twinkles with its own artificial lights of night. 
+						</p>
+						<p>
+							Has your child asked what makes day and night? How can it be morning on one side of Earth but evening on another? Show them. 
+							Day &amp; Night is an educational virtual reality experience for children using WebVR to explore how sunshine creates our most basic unit of time. 
+						</p>
+					</section>
+					<section id="adjust-to-fit">
+						<h2>Kid Comfort</h2>
+						<p>
+							Is your VR device room-scale?
+							Then adjusting the position and scale of this virtual solar system is a snap.
+							Are the earth and moon floating too high above the floor for your child to see comfortably? 
+							Hold down the main trigger on either controller and push, drag, or rotate the entire universe around you 
+							as if you were clicking and dragging with a mouse.
+						</p>
+						<div class="demonstration">
+							<svg class="svg-symbol" role="img" id="drag-released">
+								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#drag-released"></use>
+							</svg>
+							<svg class="svg-symbol" role="img" id="drag-pressed">
+								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#drag-pressed"></use>
+							</svg>
+							<svg class="svg-symbol" role="img">
+								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#drag-main"></use>
+							</svg>
+						</div>
+						Need to shrink down the universe to better fit your space?
+						Hold down two controller triggers at the same time to pinch, zoom, and rotate the space around you.
+						<br><br>
+						<div class="demonstration" id="demonstration-scale">
+							<div id="right-hand">
+								<svg class="svg-symbol" role="img" id="drag-released">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#drag-released"></use>
+								</svg>
+								<svg class="svg-symbol" role="img" id="drag-pressed">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#drag-pressed"></use>
+								</svg>
+								<svg class="svg-symbol" role="img">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#drag-main"></use>
+								</svg>
+							</div>
+							<div id="left-hand">
+								<svg class="svg-symbol" role="img" id="drag-released">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#drag-released"></use>
+								</svg>
+								<svg class="svg-symbol" role="img" id="drag-pressed">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#drag-pressed"></use>
+								</svg>
+								<svg class="svg-symbol" role="img">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#drag-main"></use>
+								</svg>
+							</div>
+						</div>
+
+
+
+
+					</section>
+					
+
+				</div>
+				<div id="about-column-2">
+					
+
+					<section id="requirements">
+						<h2>Requirements</h2>
+						<div id="requirements-list">
+							<a class="tile" href="https://www.vive.com/us/" onclick="noteOutboundLink(this)" target="_blank">
+								<svg class="svg-symbol" role="img">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#vive-hmd"></use>
+								</svg>
+								<div>VR headset</div>
+							</a><a class="tile" href="https://webvr.rocks/#browsers" onclick="noteOutboundLink(this)" target="_blank">
+								<svg class="svg-symbol" role="img">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#browser"></use>
+								</svg>
+								<div>VR Browser</div>
+							</a><a class="tile" href="https://en.wikipedia.org/wiki/Wonder_(emotion)" onclick="noteOutboundLink(this)" target="_blank">
+								<!--  "https://en.wikipedia.org/wiki/Curiosity"  -->
+								<svg class="svg-symbol" role="img">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#wonder"></use>
+								</svg>
+								<div>Wonder</div>
+							</a>
+						</div>
+						Day &amp; Night supports the 
+						<a href="https://www.vive.com/" onclick="noteOutboundLink(this)" target="_blank">HTC Vive</a>, 
+						<a href="https://www.oculus.com/rift/" onclick="noteOutboundLink(this)" target="_blank">Oculus Rift</a>, 
+						<a href="https://vr.google.com/daydream/" onclick="noteOutboundLink(this)" target="_blank">Google Daydream</a>
+						and similar VR devices.
+						If the earth does not appear in your VR goggles after clicking the “View in VR” button,
+						try clicking it again to disengage, and then again to re-engage.
+						It’s still early days for WebVR. Your pioneer spirit is appreciated. 
+					</section>
+
+
+					<section id="colophon">
+						<h2>Colophon</h2>
+						Day &amp; Night	is the first edition of the Virtual Reality Learning Series, 
+						created by <a href="http://stewartsmith.io" onclick="noteOutboundLink(this)" target="_blank">Stewart&nbsp;Smith</a>
+						and brought to you by <a href="http://moar.io" onclick="noteOutboundLink(this)" target="_blank">Moar</a>, a virtual reality consultancy in Brooklyn, New York.
+						For more information read Stewart’s <a href="https://medium.com/@stew_rtsmith/day-and-night-f5f2a56112ea" onclick="noteOutboundLink(this)" target="_blank">Day&nbsp;&amp;&nbsp;Night</a> post on Medium
+						or direct your questions and comments to <a href="https://twitter.com/stew_rtsmith" onclick="noteOutboundLink(this)" target="_blank">@stew_rtsmith</a> on Twitter.
+						<div id="socials">
+							<a class="badge" href="https://medium.com/@stew_rtsmith/day-and-night-f5f2a56112ea" onclick="noteOutboundLink(this)" target="_blank"><svg class="svg-symbol" role="img">
+								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#medium"></use>
+							</svg>
+							</a><a class="badge" href="https://twitter.com/stew_rtsmith" onclick="noteOutboundLink(this)" target="_blank"><svg class="svg-symbol" role="img">
+								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#twitter"></use>
+							</svg>
+							</a><a class="badge" href="https://github.com/stewdio/day-and-night-webvr/" onclick="noteOutboundLink(this)" target="_blank"><svg class="svg-symbol" role="img">
+								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="media/vectors.svg#github"></use>
+							</svg></a>
+						</div>
+						Thanks to <a href="http://www.nasa.gov/" onclick="noteOutboundLink(this)" target="_blank">NASA</a> and other parties for providing license-free textures of our solar system to the public. 
+						Thanks to the authors of <a href="https://threejs.org/" onclick="noteOutboundLink(this)" target="_blank">Three.js</a> for their fine toolkit and code examples.
+						Finally, thanks to HTC, Valve, and the browser keepers who make delivering VR over the Web possible.						
+						Caution, kids! Day &amp; Night is not suitable for celestial navigation. 
+						While the heavenly bodies represented here are more or less to scale, the radii and nature of their orbits are not.
+						<br><br>
+						Copyright © <a href="http://stewartsmith.io" onclick="noteOutboundLink(this)" target="_blank">Stewart Smith</a> 2016, 2017.
+						See <a href="https://github.com/stewdio/day-and-night-webvr/" onclick="noteOutboundLink(this)" target="_blank">license</a>.
+					</section>
+
+
+				</div>
+			</div>
+		
+
+		</div>
+		<script>
+
+			if( document.location.hostname !== 'localhost' ){
+
+				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				})(window,document,'script','https://www.google-analytics.com/analytics.js','ga')
+
+				ga( 'create', 'UA-86306006-1', 'auto' )
+				ga( 'send', 'pageview' )
+			}
+
+		</script>
+	</body>
+</html>
