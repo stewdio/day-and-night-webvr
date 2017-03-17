@@ -78,7 +78,7 @@ suitable for celestial navigation. While the heavenly bodies represented are
 more or less to scale, the radii and nature of their orbits are not.
   
 Copyright © [Stewart Smith](http://stewartsmith.io) 2016, 2017. See 
-[LICENSE](https://github.com/stewdio/day-and-night-webvr/raw/master/LICENSE.md)
+[LICENSE](https://github.com/stewdio/day-and-night-webvr/blob/master/LICENSE.md)
 for details.
 
 
