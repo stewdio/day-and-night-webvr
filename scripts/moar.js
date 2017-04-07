@@ -338,6 +338,15 @@ Moar.setupThree = function(){
 	Moar.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
 	Moar.renderer.setPixelRatio( window.devicePixelRatio )
 	Moar.renderer.setSize( width, height )
+	
+
+	//  Ok TIME OUT this is weird. This line is not necessary
+	//  EXCEPT for in Chrome for Android WHEN in VR mode.
+	//  Why? I just don’t know. Didn’t need it in Chromium tho...
+
+	Moar.renderer.setClearColor( 0x000000 )
+	
+
 	Moar.renderer.sortObjects = false
 	container.appendChild( Moar.renderer.domElement )
 	window.addEventListener( 'resize', Moar.onThreeResize, false )
@@ -375,6 +384,9 @@ Moar.setupThree = function(){
 	//  Aaaaaaaand this could be useful for animation, eh?
 
 	Moar.clock = new THREE.Clock()
+	Moar.throttleThreshold = 1 / 90//  How much of a performance bomb or bump do we need before acting?
+	Moar.lastTimeDelta = 0
+	Moar.resolution = 1.0
 
 
 	//  The “Scene” is our outer most container, right?
@@ -401,6 +413,28 @@ Moar.onThreeResize = function(){
 	container = null
 }
 Moar.render = function(){
+	
+
+	//  Ideally we want this to run at 90fps
+	//  but we’re willing to drop down to 40fps (grimmace face!)
+	
+	const timeDelta = Moar.clock.getDelta() * 1000
+	if( Math.abs( timeDelta - Moar.lastTimeDelta ) >= Moar.throttleThreshold ){
+
+		if( timeDelta > 1 / 40 ){//  Too slow!!
+
+			Moar.resolution = Math.max( Moar.resolution - 0.1, 0.4 )//  Minimum acceptable res set to 40%
+		}
+		if( timeDelta <= 1 / 90 ){//  Try to bump it up!
+
+			Moar.resolution = Math.min( Moar.resolution + 0.1, 1.0 )
+		}
+		Moar.effect.setVRResolutionRatio( Moar.resolution )
+	}
+	Moar.lastTimeDelta = timeDelta
+
+	
+	//  Render it! Render it real good!
 	
 	Moar.effect.render( Moar.scene, Moar.camera )
 }

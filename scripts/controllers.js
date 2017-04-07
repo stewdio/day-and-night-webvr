@@ -180,16 +180,6 @@ window.addEventListener( 'vr controller connected', function( event ){
 			mesh.receiveShadow = true
 			controller.add( mesh )
 		})
-
-
-		//  We’re running on a phone, not a full blown gaming PC. 
-		//  Killing the shadow maps will help keep the FPS up.
-		//  https://github.com/mrdoob/three.js/issues/1055
-
-		renderer.shadowMap.autoUpdate = false
-		renderer.shadowMap.enabled = false
-		floor.receiveShadow = false
-		renderer.clearTarget( mainLight.shadowMap )
 	}
 	else if( controller.gamepadStyle === 'vive' ){
 

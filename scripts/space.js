@@ -118,7 +118,8 @@ Moar.SolarSystem = function( starSprite ){
 	oReq.open( 'GET', 'media/stars.dat', true )
 	oReq.responseType = 'arraybuffer'
 	oReq.onload = function( oEvent ){
-		
+
+		console.log( 'OMG it’s full of stars! ')
 		const arrayBuffer = oReq.response//  Note: not oReq.responseText
 		if( arrayBuffer ){
 		
@@ -364,7 +365,7 @@ Moar.Sun = function( sunRaysInput ){
 		burnMaterial.uniforms.timeNow.value = Moar.clock.getElapsedTime()
 		burnMesh.lookAt( Moar.camera )
 	})
-
+	
 
 	//  Sun ball itself.
 	/*
