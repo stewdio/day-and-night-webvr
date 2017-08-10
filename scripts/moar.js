@@ -222,7 +222,7 @@ Moar.setupVRButton = function(){
 			})
 			three.classList.remove( 'show' )
 			button.classList.add( 'engaged' )
-			window.setTimeout( function(){ Moar.effect.requestPresent() }, 500 )
+			Moar.effect.requestPresent();
 		}
 	}
 	window.addEventListener( 'vrdisplaypresentchange', function( event ){
