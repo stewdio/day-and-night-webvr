@@ -5,11 +5,10 @@ Day & Night
 
 ![Day & Night](https://github.com/stewdio/day-and-night-webvr/raw/master/media/day-and-night.jpg "Day & Night (WebVR)")
 
-__Jump into outer-space to witness the sun bathe one hemisphere of Earth in 
+__Jump into outer-space to witness the sunbathe one hemisphere of Earth in 
 daylight as the sleeping side twinkles with its own artificial lights of 
 night.__
-Has your child asked what makes day and night? How can it be morning on one 
-side of Earth but evening on another? Show them. 
+Has your child asked what makes day and night? How can it be morning on one side of Earth but evening on another? Show them. 
 [Day & Night ](https://dayandnight.moar.io "Day & Night (WebVR)") is an 
 educational virtual reality experience for children using WebVR to explore how
 sunshine creates our most basic unit of time.  
